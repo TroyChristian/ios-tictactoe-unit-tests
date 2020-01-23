@@ -10,13 +10,53 @@ import Foundation
 
 struct Game {
     mutating internal func restart() {}
-    mutating internal func makeMark(at coordinate:Coordinate) throws {}
+ 
     
-    private(set) var board: GameBoard
+    private(set) var board: GameBoard = GameBoard()
     
-    internal var activePlayer: GameBoard.Mark?
-    internal var gameIsOver:Bool
-    internal var winningPlayer: GameBoard.Mark?
+    internal var activePlayer: GameBoard.Mark? = .x
+    internal var gameIsOver:Bool = false
+    internal var winningPlayer: GameBoard.Mark? = nil
+    var gameState = GameState.active(.x)
+    
+     enum GameState {
+         case active(GameBoard.Mark) // Active player
+         case cat
+         case won(GameBoard.Mark) // Winning player
     
     
 }
+    
+    mutating internal func makeMark(at coordinate: Coordinate) throws {
+        guard case let GameState.active(player) = gameState else {
+            NSLog("Game over")
+            return
+        }
+        
+        do {
+            try board.place(mark: player, on: coordinate)
+            if game(board:board, isWonBy:player) {
+                gameState = .won(player)
+                winningPlayer = player
+                gameIsOver = true
+            } else if board.isFull{
+                gameState = .cat
+                gameIsOver = true
+            } else {
+                let activePlayer = player == .x ? GameBoard.Mark.o : GameBoard.Mark.x
+                self.activePlayer = activePlayer
+                gameState = .active(activePlayer)
+            }
+            
+        } catch {
+            NSLog("Move not allowed")
+            throw error 
+        }
+    }
+    
+    
+    
+
+}
+
+
