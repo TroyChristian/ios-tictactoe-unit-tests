@@ -36,6 +36,7 @@ struct GameBoard {
     subscript(coordinate: Coordinate) -> Mark? {
         let square = squares[arrayIndex(for: coordinate)]
         if case let Square.filled(mark) = square {
+           
             return mark
         } else {
             return nil
@@ -47,6 +48,7 @@ struct GameBoard {
             throw GameBoardError.invalidSquare
         }
         squares[arrayIndex(for: square)] = .filled(mark)
+        
     }
     
     var isFull: Bool {

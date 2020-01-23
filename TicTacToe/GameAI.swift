@@ -9,20 +9,30 @@
 import Foundation
 
 func game(board: GameBoard, isWonBy player: GameBoard.Mark) -> Bool {
-    // Check verticals
+    // Check verticals "down" each column (x,y) 
     for x in 0..<3 {
         var numMarks = 0
         for y in 0..<3 {
             if board[(x, y)] == player {
                 numMarks += 1
             }
+            //visualize a nested for loop.
+            // x 0
+            // y 0,1,2
+            // x 1
+            // y 0 1 2
         }
         if numMarks == 3 {
             return true
         }
     }
     
-    // Check horizontals
+    // Check horizontals (x,y) (0,1)
+    //(x)
+    // - - -
+//y    - - -
+   //  - - -
+
     for y in 0..<3 {
         var numMarks = 0
         for x in 0..<3 {
