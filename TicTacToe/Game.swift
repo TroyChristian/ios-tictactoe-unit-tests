@@ -9,8 +9,7 @@
 import Foundation
 
 struct Game {
-    mutating internal func restart() {}
- 
+
     
     private(set) var board: GameBoard = GameBoard()
     
@@ -26,6 +25,19 @@ struct Game {
     
     
 }
+    
+    
+       mutating internal func restart() {
+        board = GameBoard()
+        activePlayer = .x
+        gameIsOver = false
+        winningPlayer = nil
+        gameState = .active(.x)
+        
+        
+        
+    }
+    
     
     mutating internal func makeMark(at coordinate: Coordinate) throws {
         guard case let GameState.active(player) = gameState else {
@@ -50,7 +62,7 @@ struct Game {
             
         } catch {
             NSLog("Move not allowed")
-            throw error 
+            throw error
         }
     }
     
